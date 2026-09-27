@@ -2,150 +2,79 @@
 #include <string>
 #include <cmath>
 #include <vector>
+#include <chrono>
+#include <thread>
+#include "Flight.h"
+#include "AircraftData.h"
+#include "Obstacle.h"
 
-struct Vector2 {
-    float x;
-    float y;
-};
-
-struct Orientation {
-    float roll;
-    float pitch;
-    float yaw;
-};
-
-enum class AircraftState {
-    OFF,
-    TAKINGOFF,
-    FLYING,
-    LANDING,
-    LANDED
-};
-
-class AircraftData {
-
-   private:
-    Vector2 velocity{0.0f, 0.0f};
-    AircraftState state{AircraftState::OFF};
-
-   public:
-    AircraftData(Vector2 velocity, AircraftState state) 
-    :   velocity(velocity),
-        state(state)
-    {}
-
-    AircraftData() = default;
-
-    void setVelocity(const Vector2& velocity) {
-        this->velocity = velocity;
-    }
-
-    void setState(const AircraftState& state) {
-        this->state = state;
-    }
-
-    Vector2 getVelocity() const {
-    return velocity;
-    }
-
-    AircraftState getState() const {
-    return state;
-    }
-};
-
-
-class Flight {
-
-   private:
-    Vector2 startPosition{0.0f, 0.0f};
-    Vector2 destinationPosition{0.0f, 0.0f};
-    float cruiseAltitude;
-    float cruiseSpeed;
-
-   public:
-    Flight(Vector2 startPosition, Vector2 destinationPosition, float cruiseAltitude, float cruiseSpeed) 
-    :   startPosition(startPosition),
-        destinationPosition(destinationPosition),
-        cruiseAltitude(cruiseAltitude),
-        cruiseSpeed(cruiseSpeed)
-    {}
-
-    Flight() = default;
-
-    void setStartPosition(const Vector2& startPosition) {
-        this->startPosition = startPosition;
-    }
-
-    void setDestinationPosition(const Vector2& destinationPosition) {
-        this->destinationPosition = destinationPosition;
-    }
-
-    void setCruiseAltitude(float cruiseAltitude) {
-        this->cruiseAltitude = cruiseAltitude;
-    }
-
-    void setCruiseSpeed(float cruiseSpeed) {
-        this->cruiseSpeed = cruiseSpeed;
-    }
-
-    Vector2 getStartPosition() const {
-    return startPosition;
-    }
-
-    Vector2 getDestinationPosition() const {
-    return destinationPosition;
-    }
-
-    float getCruiseAltitude() const {
-    return cruiseAltitude;
-    }
-
-    float getCruiseSpeed() const {
-    return cruiseSpeed;
-    }
-};
 
 int main() {
 
+    const float epsilon = 0.001f;
+    
     std::vector<Flight> flightData;
+    std::vector<Obstacle> obstacleData;
 
+    Vector2 positionStart = {2.0f, 3.0f};
+    Vector2 positionEnd = {15.0f, -162.0f};
+    Vector2 positionCurrent = {0.0f, 0.0f};
 
-    Vector2 positionStart = {3.4f, 5.3f};
-    Vector2 positionEnd = {4.1f, 3.5f};
     float cruiseAltitude = 0.0f;
     float cruiseSpeed = 0.0f;
 
     Flight flightDetails(positionStart, positionEnd, cruiseAltitude, cruiseSpeed);
 
+    Obstacle obstacleDetails(ObstacleType(1), {125.0f, -129.54f}, 50.0f);
+
     flightData.push_back(flightDetails);
- 
+    obstacleData.push_back(obstacleDetails);
+
     float displacementX = positionEnd.x - positionStart.x;
     float displacementY = positionEnd.y - positionStart.y;
 
     float distanceTo = sqrt(displacementX * displacementX + displacementY * displacementY);
 
+    int animationSpeed;
+    int jumpSpeed;
+    if (distanceTo <= 25) {
+        jumpSpeed = 10;
+        animationSpeed = 620;
+    } else if (distanceTo > 25 && distanceTo <= 50) {
+        jumpSpeed = 25;
+        animationSpeed = 530;
+    } else if (distanceTo > 50 && distanceTo <= 75) {
+        jumpSpeed = 45;
+        animationSpeed = 375;
+    } else if (distanceTo > 75 && distanceTo <= 100) {
+        jumpSpeed = 75;
+        animationSpeed = 285;
+    } else {
+        jumpSpeed = 100;
+        animationSpeed = 200;
+    };
+
+    float tenUnitsDown = 1.0f / jumpSpeed;
+
     std::cout << "Details: \nFlight start position: (" << positionStart.x << ", " << positionStart.y << ")\n" << 
                           "Flight end position: (" << positionEnd.x << ", " << positionEnd.y << ")\n" << 
                           "Flight displacement: (" << displacementX << ", " << displacementY << ")\n" <<
                           "Flight distance to: " << distanceTo << std::endl; 
+    std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 
-
-    for (const Flight& flight : flightData) {
-    Vector2 start = flight.getStartPosition();
-    Vector2 destination = flight.getDestinationPosition();
-
-    std::cout << "Start position: ("
-              << start.x << ", " << start.y << ")\n";
-
-    std::cout << "Destination position: ("
-              << destination.x << ", " << destination.y << ")\n";
-
-    std::cout << "Cruise speed: "
-              << flight.getCruiseSpeed() << '\n';
-
-    std::cout << "Cruise altitude: "
-              << flight.getCruiseAltitude() << '\n';
+    positionCurrent = positionStart; 
+    std::cout << "\nCurrent Position: (" << positionCurrent.x << ", " << positionCurrent.y << ")";
+    while(true) {
+        positionCurrent.x = positionCurrent.x + tenUnitsDown * (positionEnd.x - positionStart.x);
+        positionCurrent.y = positionCurrent.y + tenUnitsDown * (positionEnd.y - positionStart.y);
+        std::cout << "\nCurrent Position: (" << positionCurrent.x << ", " << positionCurrent.y << ")";
+        std::this_thread::sleep_for(std::chrono::milliseconds(animationSpeed));
+        if(std::fabs(positionCurrent.x - positionEnd.x) < epsilon &&
+            std::fabs(positionCurrent.y - positionEnd.y) < epsilon) {
+            std::cout << "\nWell Done you made it safely to your destination!";
+            break;
 }
+    }
 
     return 0;
 }
