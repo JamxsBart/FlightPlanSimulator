@@ -1,0 +1,3 @@
+C:/Users/ezzwo/OneDrive/Documents/Daily c++ learning plan/C++ General language Learning/DroneProject/FlightPlanSimulator/src/build/CMakeFiles/droneSim.dir
+C:/Users/ezzwo/OneDrive/Documents/Daily c++ learning plan/C++ General language Learning/DroneProject/FlightPlanSimulator/src/build/CMakeFiles/edit_cache.dir
+C:/Users/ezzwo/OneDrive/Documents/Daily c++ learning plan/C++ General language Learning/DroneProject/FlightPlanSimulator/src/build/CMakeFiles/rebuild_cache.dir

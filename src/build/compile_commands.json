@@ -1,0 +1,8 @@
+[
+{
+  "directory": "C:/Users/ezzwo/OneDrive/Documents/Daily c++ learning plan/C++ General language Learning/DroneProject/FlightPlanSimulator/src/build",
+  "command": "C:\\msys64\\ucrt64\\bin\\g++.exe   -g -o CMakeFiles\\droneSim.dir\\mainDrone.cpp.obj -c \"C:\\Users\\ezzwo\\OneDrive\\Documents\\Daily c++ learning plan\\C++ General language Learning\\DroneProject\\FlightPlanSimulator\\src\\mainDrone.cpp\"",
+  "file": "C:/Users/ezzwo/OneDrive/Documents/Daily c++ learning plan/C++ General language Learning/DroneProject/FlightPlanSimulator/src/mainDrone.cpp",
+  "output": "CMakeFiles/droneSim.dir/mainDrone.cpp.obj"
+}
+]

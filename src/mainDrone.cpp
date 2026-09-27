@@ -21,11 +21,11 @@ int main() {
     Vector2 positionCurrent = {0.0f, 0.0f};
 
     float cruiseAltitude = 0.0f;
-    float cruiseSpeed = 0.0f;
+    float cruiseSpeed = 0.0f; // make use of cruise speed and altitude when effecting the flight data e.g. cost more accelleration = more fuel burned = higher costs 
 
     Flight flightDetails(positionStart, positionEnd, cruiseAltitude, cruiseSpeed);
 
-    Obstacle obstacleDetails(ObstacleType(1), {125.0f, -129.54f}, 50.0f);
+    Obstacle obstacleDetails(ObstacleType(1), {125.0f, -129.54f}, 50.0f); // implement obstacles into the path with automatic obstacle avoidance
 
     flightData.push_back(flightDetails);
     obstacleData.push_back(obstacleDetails);
@@ -54,7 +54,7 @@ int main() {
         animationSpeed = 200;
     };
 
-    float tenUnitsDown = 1.0f / jumpSpeed;
+    float tenUnitsDown = 1.0f / jumpSpeed; // update later on to be more accurate and tied to velocity instead of just for the animations
 
     std::cout << "Details: \nFlight start position: (" << positionStart.x << ", " << positionStart.y << ")\n" << 
                           "Flight end position: (" << positionEnd.x << ", " << positionEnd.y << ")\n" << 
@@ -62,9 +62,9 @@ int main() {
                           "Flight distance to: " << distanceTo << std::endl; 
     std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 
-    positionCurrent = positionStart; 
+    positionCurrent = positionStart; // move currentPosition to Aircraft class
     std::cout << "\nCurrent Position: (" << positionCurrent.x << ", " << positionCurrent.y << ")";
-    while(true) {
+    while(true) { // make use of my state system in further versions e.g. while (flight.getState() == DroneState::FLYING)
         positionCurrent.x = positionCurrent.x + tenUnitsDown * (positionEnd.x - positionStart.x);
         positionCurrent.y = positionCurrent.y + tenUnitsDown * (positionEnd.y - positionStart.y);
         std::cout << "\nCurrent Position: (" << positionCurrent.x << ", " << positionCurrent.y << ")";
