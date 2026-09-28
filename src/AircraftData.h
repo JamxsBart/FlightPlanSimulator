@@ -9,14 +9,17 @@ enum class AircraftState {
 class AircraftData {
 
    private:
-    Vector2 velocity{0.0f, 0.0f};
-    AircraftState state{AircraftState::OFF};
+    Vector2 velocity;
+    AircraftState state;
+    Vector2 currentPosition;
 
    public:
-    AircraftData(Vector2 velocity, AircraftState state) 
-    :   velocity(velocity),
-        state(state)
+    AircraftData(Vector2 currentPosition) 
+    :   velocity{ 0.0f, 0.0f },
+        state(AircraftState::OFF),
+        currentPosition(currentPosition)
     {}
+
 
     AircraftData() = default;
 
@@ -24,8 +27,13 @@ class AircraftData {
         this->velocity = velocity;
     }
 
-    void setState(const AircraftState& state) {
-        this->state = state;
+    void setState(AircraftState newState)
+    {
+        this->state = newState;
+    }
+
+    void setCurrentPosition(const Vector2& currentPosition) {
+        this->currentPosition = currentPosition;
     }
 
     Vector2 getVelocity() const {
@@ -34,5 +42,9 @@ class AircraftData {
 
     AircraftState getState() const {
     return state;
+    }
+    
+    Vector2 getCurrentPosition() const {
+    return currentPosition;
     }
 };
