@@ -102,4 +102,15 @@ class AircraftData {
     Vector2 getCurrentPosition() const {
     return currentPosition;
     }
+
+    void startAircraft() {
+        if (state == AircraftState::OFF) {
+                state = AircraftState::TAKINGOFF;
+                std::cout << "\nAircraft is taking off";
+                state = AircraftState::FLYING;
+                std::cout << "\nAircraft is flying";
+        }
+    }
+
+
 };

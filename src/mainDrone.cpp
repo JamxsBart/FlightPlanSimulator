@@ -36,6 +36,7 @@ int main() {
     float cruiseSpeed = 10.0f; // make use of cruise speed and altitude when effecting the flight data e.g. cost more accelleration = more fuel burned = higher costs
 
     Flight flightDetails(positionStart, positionEnd, cruiseAltitude, cruiseSpeed);
+
     Obstacle obstacleDetails(ObstacleType::MEDIUMWEATHER, {125.0f, -129.54f}, 50.0f);
 
     flightData.push_back(flightDetails);
@@ -53,21 +54,14 @@ int main() {
 
     AircraftData inFlightData(positionStart);
     inFlightData.setVelocity(velocity);
-
-    inFlightData.setState(AircraftState::TAKINGOFF);
-    std::cout << "\nAircraft is taking off";
-    sleepMilliseconds(4000);
-
-    inFlightData.setState(AircraftState::FLYING);
-    std::cout << "\nAircraft is flying";
+    inFlightData.startAircraft();
 
     auto previousTime = std::chrono::steady_clock::now();
 
     while (inFlightData.getState() != AircraftState::OFF) {
         auto currentTime = std::chrono::steady_clock::now();
 
-        std::chrono::duration<float> elapsed =
-            currentTime - previousTime;
+        std::chrono::duration<float> elapsed = currentTime - previousTime;
 
         float deltaTime = elapsed.count();
 
@@ -89,4 +83,4 @@ int main() {
 
 // create slower moving animation for visual display (later)
 // implement events/Obstacles
-// introduce more calculations such as fuel costs / weight / make use of altitude
+// introduce more calculations such as fuel costs / weight / make use of altitude (way)

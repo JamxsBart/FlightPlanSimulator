@@ -36,7 +36,7 @@ class Obstacle {
         return obstacleType;
     }
 
-    Vector2 getOstaclePosition() const {
+    Vector2 getObstaclePosition() const {
         return obstaclePosition;
     }
 
