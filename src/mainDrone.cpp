@@ -13,7 +13,8 @@ void PrintFlightDetails(const Vector2& positionStart, const Vector2& positionEnd
     std::cout << "Details: \nFlight start position: (" << positionStart.x << ", " << positionStart.y << ")\n"
               << "Flight end position: (" << positionEnd.x << ", " << positionEnd.y << ")\n"
               << "Flight displacement: (" << displacementX << ", " << displacementY << ")\n"
-              << "Flight distance to: " << distanceTo << std::endl;
+              << "Flight distance to: " << distanceTo
+              << "\n" << std::endl;
     std::this_thread::sleep_for(std::chrono::milliseconds(2500));
 }
 
@@ -56,9 +57,8 @@ int main() {
 
     Flight flightDetails(positionStart, positionEnd, cruiseAltitude, cruiseSpeed);
 
-    Obstacle obstacleDetails(ObstacleType::MEDIUMWEATHER, {125.0f, -129.54f}, 50.0f);
     Vector2 obstaclePosition = generateRandomPointOnPath(positionStart, positionEnd);
-    std::cout << "Obstacle position: (" << obstaclePosition.x << ", " << obstaclePosition.y << ")\n";
+    Obstacle obstacleDetails(ObstacleType::MEDIUMWEATHER, obstaclePosition, 5.0f);
 
     flightData.push_back(flightDetails);
     obstacleData.push_back(obstacleDetails);
@@ -71,6 +71,7 @@ int main() {
     Vector2 velocity = {direction.x * cruiseSpeed, direction.y * cruiseSpeed};
 
     PrintFlightDetails(positionStart, positionEnd, displacementX, displacementY, distanceTo);
+    obstacleDetails.printObstacleDetails();
     sleepMilliseconds(1000);
 
     AircraftData inFlightData(positionStart);

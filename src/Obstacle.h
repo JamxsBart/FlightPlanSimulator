@@ -43,4 +43,10 @@ class Obstacle {
     float getObstacleRadius() const {
         return obstacleRadius;
     }
+
+    void printObstacleDetails() {
+        std::cout << "\nObstacle Details: " << "\nObstacle Type: " << "LIGHTWEATHER" 
+                  << "\nObstacle Positions: (" << obstaclePosition.x << ", " << obstaclePosition.y 
+                  << ")\nObstacle Radius: " << obstacleRadius << std::endl;
+    }
 };
