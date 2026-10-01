@@ -7,6 +7,7 @@
 #include "Flight.h"
 #include "AircraftData.h"
 #include "Obstacle.h"
+#include <random>
 
 void PrintFlightDetails(const Vector2& positionStart, const Vector2& positionEnd, const float& displacementX, const float& displacementY, const float& distanceTo) {
     std::cout << "Details: \nFlight start position: (" << positionStart.x << ", " << positionStart.y << ")\n"
@@ -24,6 +25,24 @@ void sleepMilliseconds(const int& x) {
     std::this_thread::sleep_for(std::chrono::milliseconds(x));
 }
 
+float randomFloat(float minimum, float maximum) {
+    static std::random_device rd;
+    static std::mt19937 generator(rd());
+
+    std::uniform_real_distribution<float> distribution(minimum, maximum);
+
+    return distribution(generator);
+}
+
+Vector2 generateRandomPointOnPath(const Vector2& start, const Vector2& destination) {
+    float t = randomFloat(0.2f, 0.8f);
+
+    return {
+        start.x + t * (destination.x - start.x),
+        start.y + t * (destination.y - start.y)
+    };
+}
+
 int main() {
     
     std::vector<Flight> flightData;
@@ -38,6 +57,8 @@ int main() {
     Flight flightDetails(positionStart, positionEnd, cruiseAltitude, cruiseSpeed);
 
     Obstacle obstacleDetails(ObstacleType::MEDIUMWEATHER, {125.0f, -129.54f}, 50.0f);
+    Vector2 obstaclePosition = generateRandomPointOnPath(positionStart, positionEnd);
+    std::cout << "Obstacle position: (" << obstaclePosition.x << ", " << obstaclePosition.y << ")\n";
 
     flightData.push_back(flightDetails);
     obstacleData.push_back(obstacleDetails);
