@@ -22,7 +22,7 @@ class AircraftData {
 
     AircraftData() = default;
 
-    void update(float deltaTime, const Flight& flight) {
+    void update(float deltaTime, const Flight& flight, const Vector2& obstaclePosition, const float& obstacleRadius, const float& distance) {
     switch (state) {
         case AircraftState::OFF:
             break;
@@ -38,20 +38,23 @@ class AircraftData {
             currentPosition.x += velocity.x * deltaTime;
             currentPosition.y += velocity.y * deltaTime;
 
-            if ((velocity.x > 0.0f &&
-                 currentPosition.x >= destination.x) ||
-                (velocity.x < 0.0f &&
-                 currentPosition.x <= destination.x))
+            // Prevent flying past destination
+            if ((velocity.x > 0.0f && currentPosition.x >= destination.x) || 
+                (velocity.x < 0.0f && currentPosition.x <= destination.x))
             {
                 currentPosition.x = destination.x;
             }
 
-            if ((velocity.y > 0.0f &&
-                 currentPosition.y >= destination.y) ||
-                (velocity.y < 0.0f &&
-                 currentPosition.y <= destination.y))
+            if ((velocity.y > 0.0f && currentPosition.y >= destination.y) || 
+                (velocity.y < 0.0f && currentPosition.y <= destination.y))
             {
                 currentPosition.y = destination.y;
+            }
+
+            if (distance <= obstacleRadius) {
+                std::cout << "Obstacle in current flight path -> re-routing";
+                state = AircraftState::OFF;
+                break; //checking if there is an obstical in the way (it will always be yes, i need to put rerouting code here to create a new path)
             }
 
             if (currentPosition.x == destination.x &&
