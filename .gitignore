@@ -30,3 +30,13 @@
 *.exe
 *.out
 *.app
+
+# CMake build output
+/build/
+
+# Local macOS build artifacts
+/src/mainDrone
+/src/mainDrone.dSYM/
+
+# macOS Finder metadata
+.DS_Store
