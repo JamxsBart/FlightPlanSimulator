@@ -98,7 +98,7 @@ int main() {
 
         previousTime = currentTime;
 
-        inFlightData.update(deltaTime, flightDetails, obstaclePosition, obstacleDetails.getObstacleRadius(), distanceToObstacleFromPath );
+        inFlightData.update(deltaTime, flightDetails, obstacleDetails.getObstacleRadius(), distanceToObstacleFromPath );
 
         Vector2 position = inFlightData.getCurrentPosition();
 
