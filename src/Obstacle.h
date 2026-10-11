@@ -11,6 +11,21 @@ enum class ObstacleType {
     HEAVYWINDS
 };
 
+std::string obstacleTypeToString(ObstacleType obstacleType) {
+    switch(obstacleType) {
+        case ObstacleType::LIGHTWEATHER:
+            return "LightWeather";
+        case ObstacleType::MEDIUMWEATHER:
+            return "MediumWeather";
+        case ObstacleType::HEAVYWEATHER:
+            return "HeavyWeather";
+        case ObstacleType::CLOSEDAIRSPACE:
+            return "ClosedAirspace";
+        case ObstacleType::HEAVYWINDS:
+            return "HeavyWinds";
+    }
+}
+
 class Obstacle {
 
    private:
@@ -50,7 +65,7 @@ class Obstacle {
     }
 
     void printObstacleDetails() {
-        std::cout << "\nObstacle Details: " << "\nObstacle Type: " << "LIGHTWEATHER" 
+        std::cout << "\nObstacle Details: " << "\nObstacle Type: " << obstacleTypeToString(obstacleType) 
                   << "\nObstacle Positions: (" << obstaclePosition.x << ", " << obstaclePosition.y 
                   << ")\nObstacle Radius: " << obstacleRadius << std::endl;
     }
