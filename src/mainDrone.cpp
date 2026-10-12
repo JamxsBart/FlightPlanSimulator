@@ -4,10 +4,10 @@
 #include <vector>
 #include <chrono>
 #include <thread>
-#include <algorithm>
 #include "Flight.h"
 #include "AircraftData.h"
 #include "Obstacle.h"
+#include "Geometry.h"
 #include <random>
 
 void PrintFlightDetails(const Vector2& positionStart, const Vector2& positionEnd, float displacementX, float displacementY, float distanceTo) {
@@ -64,15 +64,18 @@ int main() {
 
     Vector2 direction = {displacementX / distanceTo, displacementY / distanceTo};
     Vector2 velocity = {direction.x * cruiseSpeed, direction.y * cruiseSpeed};
-    Vector2 distanceToDestination = {positionEnd.x - positionStart.x, positionEnd.y - positionStart.y};
-    Vector2 distanceToObsticalPosition = {obstaclePosition.x - positionStart.x, obstaclePosition.y - positionStart.y};
-    float projection = (distanceToObsticalPosition.x * distanceToDestination.x + distanceToObsticalPosition.y * distanceToDestination.y) / (distanceToDestination.x * distanceToDestination.x + distanceToDestination.y * distanceToDestination.y);
-    projection = std::max(0.0f, std::min(1.0f, projection));
-    Vector2 closestPoint = {positionStart.x + projection * distanceToDestination.x, positionStart.y + projection * distanceToDestination.y};
-    float dx = obstaclePosition.x - closestPoint.x;
-    float dy = obstaclePosition.y - closestPoint.y;
+    float distanceToObstacleFromPath = distanceFromPointToSegment(
+        obstaclePosition,
+        positionStart,
+        positionEnd
+    );
 
-    float distanceToObstacleFromPath = std::sqrt(dx * dx + dy * dy);
+    bool routeIsBlocked = segmentIntersectsCircle(
+        positionStart,
+        positionEnd,
+        obstaclePosition,
+        obstacleDetails.getObstacleRadius()
+    );
 
     AircraftData inFlightData(positionStart);
     inFlightData.setVelocity(velocity);
@@ -80,6 +83,13 @@ int main() {
 
     PrintFlightDetails(positionStart, positionEnd, displacementX, displacementY, distanceTo);
     obstacleDetails.printObstacleDetails();
+
+    if (routeIsBlocked) {
+        std::cout << "\nDirect route is blocked.";
+    } else {
+        std::cout << "\nDirect route is safe.";
+    }
+
     sleepMilliseconds(1000);
 
     auto previousTime = std::chrono::steady_clock::now();

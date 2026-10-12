@@ -8,6 +8,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_executable(flight_sim
     src/mainDrone.cpp
+    src/Geometry.cpp
 )
 
 target_compile_options(flight_sim PRIVATE
