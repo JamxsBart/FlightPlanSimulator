@@ -4,12 +4,13 @@
 #include <vector>
 #include <chrono>
 #include <thread>
+#include <algorithm>
 #include "Flight.h"
 #include "AircraftData.h"
 #include "Obstacle.h"
 #include <random>
 
-void PrintFlightDetails(const Vector2& positionStart, const Vector2& positionEnd, const float& displacementX, const float& displacementY, const float& distanceTo) {
+void PrintFlightDetails(const Vector2& positionStart, const Vector2& positionEnd, float displacementX, float displacementY, float distanceTo) {
     std::cout << "Details: \nFlight start position: (" << positionStart.x << ", " << positionStart.y << ")\n"
               << "Flight end position: (" << positionEnd.x << ", " << positionEnd.y << ")\n"
               << "Flight displacement: (" << displacementX << ", " << displacementY << ")\n"
@@ -45,9 +46,6 @@ Vector2 generateRandomPointOnPath(const Vector2& start, const Vector2& destinati
 }
 
 int main() {
-    
-    std::vector<Flight> flightData;
-    std::vector<Obstacle> obstacleData;
 
     Vector2 positionStart = {2.0f, 3.0f};
     Vector2 positionEnd = {155.0f, -97.0f};
@@ -58,14 +56,11 @@ int main() {
     Flight flightDetails(positionStart, positionEnd, cruiseAltitude, cruiseSpeed);
 
     Vector2 obstaclePosition = generateRandomPointOnPath(positionStart, positionEnd);
-    Obstacle obstacleDetails(ObstacleType::MEDIUMWEATHER, obstaclePosition, 6.0f);
-
-    flightData.push_back(flightDetails);
-    obstacleData.push_back(obstacleDetails);
+    Obstacle obstacleDetails(ObstacleType::LIGHTWEATHER, obstaclePosition, 6.0f);
 
     float displacementX = positionEnd.x - positionStart.x;
     float displacementY = positionEnd.y - positionStart.y;
-    float distanceTo = sqrt(displacementX * displacementX + displacementY * displacementY);
+    float distanceTo = std::sqrt(displacementX * displacementX + displacementY * displacementY);
 
     Vector2 direction = {displacementX / distanceTo, displacementY / distanceTo};
     Vector2 velocity = {direction.x * cruiseSpeed, direction.y * cruiseSpeed};

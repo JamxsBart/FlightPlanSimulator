@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 #include "Flight.h"
 
 enum class ObstacleType {
@@ -11,7 +12,7 @@ enum class ObstacleType {
     HEAVYWINDS
 };
 
-std::string obstacleTypeToString(ObstacleType obstacleType) {
+inline std::string obstacleTypeToString(ObstacleType obstacleType) {
     switch(obstacleType) {
         case ObstacleType::LIGHTWEATHER:
             return "LightWeather";
