@@ -1,4 +1,5 @@
-#include <string>
+#pragma once
+
 struct Vector2 {
     float x;
     float y;
@@ -9,8 +10,8 @@ class Flight {
    private:
     Vector2 startPosition{0.0f, 0.0f};
     Vector2 destinationPosition{0.0f, 0.0f};
-    float cruiseAltitude;
-    float cruiseSpeed;
+    float cruiseAltitude{0.0f};
+    float cruiseSpeed{0.0f};
 
    public:
     Flight(Vector2 startPosition, Vector2 destinationPosition, float cruiseAltitude, float cruiseSpeed) 
@@ -22,20 +23,20 @@ class Flight {
 
     Flight() = default;
 
-    void setStartPosition(const Vector2& startPosition) {
-        this->startPosition = startPosition;
+    void setStartPosition(const Vector2& newStartPosition) {
+        this->startPosition = newStartPosition;
     }
 
-    void setDestinationPosition(const Vector2& destinationPosition) {
-        this->destinationPosition = destinationPosition;
+    void setDestinationPosition(const Vector2& newDestinationPosition) {
+        this->destinationPosition = newDestinationPosition;
     }
 
-    void setCruiseAltitude(float cruiseAltitude) {
-        this->cruiseAltitude = cruiseAltitude;
+    void setCruiseAltitude(float newCruiseAltitude) {
+        this->cruiseAltitude = newCruiseAltitude;
     }
 
-    void setCruiseSpeed(float cruiseSpeed) {
-        this->cruiseSpeed = cruiseSpeed;
+    void setCruiseSpeed(float newCruiseSpeed) {
+        this->cruiseSpeed = newCruiseSpeed;
     }
 
     Vector2 getStartPosition() const {

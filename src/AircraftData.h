@@ -1,3 +1,8 @@
+#pragma once
+
+#include <iostream>
+#include "Flight.h"
+
 enum class AircraftState {
     OFF,
     TAKINGOFF,
@@ -9,9 +14,9 @@ enum class AircraftState {
 class AircraftData {
 
    private:
-    Vector2 velocity;
-    AircraftState state;
-    Vector2 currentPosition;
+    Vector2 velocity{0.0f, 0.0f};
+    AircraftState state{AircraftState::OFF};
+    Vector2 currentPosition{0.0f, 0.0f};
 
    public:
     AircraftData(Vector2 currentPosition) 
@@ -22,7 +27,7 @@ class AircraftData {
 
     AircraftData() = default;
 
-    void update(float deltaTime, const Flight& flight, const Vector2& obstaclePosition, const float& obstacleRadius, const float& distance) {
+    void update(float deltaTime, const Flight& flight, float obstacleRadius, float distance) {
     switch (state) {
         case AircraftState::OFF:
             break;
@@ -81,8 +86,8 @@ class AircraftData {
     }
 }
 
-    void setVelocity(const Vector2& velocity) {
-        this->velocity = velocity;
+    void setVelocity(const Vector2& newVelocity) {
+        this->velocity = newVelocity;
     }
 
     void setState(AircraftState newState)
@@ -90,8 +95,8 @@ class AircraftData {
         this->state = newState;
     }
 
-    void setCurrentPosition(const Vector2& currentPosition) {
-        this->currentPosition = currentPosition;
+    void setCurrentPosition(const Vector2& newCurrentPosition) {
+        this->currentPosition = newCurrentPosition;
     }
 
     Vector2 getVelocity() const {
